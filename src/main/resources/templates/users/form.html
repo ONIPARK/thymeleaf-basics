@@ -28,73 +28,79 @@
     </head>
 
     <body>
-        <h1>ユーザー登録</h1>
 
-        <!-- th:object でフォームにオブジェクトをバインド -->
-         <form th:action="@{/users}" th:object="${userForm}" method="post">
+        <div th:replace="~{fragments/header :: header}"></div>
+        <main style="padding: 0 20px;">
 
-            <div class="form-group">
-                <label for="name">氏名</label>
-                <!-- th:field で入力フィールドとプロパティを連携 -->
-                 <input type="text" id="name" th:field="*{name}"
-                    th:classappend="${#fields.hasErrors('name')} ? 'error' : ''">
-                <!-- th:errors でエラーメッセージを表示 -->
-                 <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message">
-                    エラーメッセージ
-                 </p>
-            </div>
-
-            <div class="form-group">
-                <label for="email">メールアドレス</label>
-                <input type="email" id="email" th:field="*{email}"
-                    th:classappend="${#fields.hasErrors('email')} ? 'error' : ''">
-                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message">
-                    エラーメッセージ
-                </p>
-            </div>
-
-            <!-- チャレンジ 1: パスワードフィールドの追加 -->
-            <div class="form-group">
-                <label for="password">パスワード</label>
-                <input type="password" id="password" th:field="*{password}"
-                    th:classappend="${#fields.hasErrors('password')} ? 'error' : ''">
-                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message">
-                    エラーメッセージ
-                </p>
-            </div>
-
-            <div class="form-group">
-                <label for="password">パスワード確認</label>
-                <input type="password" id="password" th:field="*{confirmPassword}"
-                    th:classappend="${#fields.hasErrors('confirmPassword')} ? 'error' : ''">
-                <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="error-message">
-                    エラーメッセージ
-                </p>
-            </div>
-
-            <!-- チャレンジ 2: セレクトボックスの追加 -->
-            <div>
-                <label>部署</label>
-                <select th:field="*{department}">
-                    <option value="">選択してください</option>
-                    <option value="sales">営業部</option>
-                    <option value="engineering">技術部</option>
-                </select>
-            </div>
-
-            <!-- チャレンジ 3: チェックボックスの追加 -->
-            <div>
-                <label>
-                    <input type="checkbox" th:field="*{agreedToTerms}">
-                    利用規約に同意します。
-                </label>
-                <div th:if="${#fields.hasErrors('agreedToTerms')}" th:errors="*{agreedToTerms}"></div>
-            </div>
-
-
-            <button type="submit">登録</button>
-         </form>
-         <hr>
-         <a th:href="@{/users}">ユーザー一覧に戻る</a>
+            <h1>ユーザー登録</h1>
+    
+            <!-- th:object でフォームにオブジェクトをバインド -->
+             <form th:action="@{/users}" th:object="${userForm}" method="post">
+    
+                <div class="form-group">
+                    <label for="name">氏名</label>
+                    <!-- th:field で入力フィールドとプロパティを連携 -->
+                     <input type="text" id="name" th:field="*{name}"
+                        th:classappend="${#fields.hasErrors('name')} ? 'error' : ''">
+                    <!-- th:errors でエラーメッセージを表示 -->
+                     <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message">
+                        エラーメッセージ
+                     </p>
+                </div>
+    
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="email" id="email" th:field="*{email}"
+                        th:classappend="${#fields.hasErrors('email')} ? 'error' : ''">
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message">
+                        エラーメッセージ
+                    </p>
+                </div>
+    
+                <!-- チャレンジ 1: パスワードフィールドの追加 -->
+                <div class="form-group">
+                    <label for="password">パスワード</label>
+                    <input type="password" id="password" th:field="*{password}"
+                        th:classappend="${#fields.hasErrors('password')} ? 'error' : ''">
+                    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message">
+                        エラーメッセージ
+                    </p>
+                </div>
+    
+                <div class="form-group">
+                    <label for="password">パスワード確認</label>
+                    <input type="password" id="password" th:field="*{confirmPassword}"
+                        th:classappend="${#fields.hasErrors('confirmPassword')} ? 'error' : ''">
+                    <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="error-message">
+                        エラーメッセージ
+                    </p>
+                </div>
+    
+                <!-- チャレンジ 2: セレクトボックスの追加 -->
+                <div>
+                    <label>部署</label>
+                    <select th:field="*{department}">
+                        <option value="">選択してください</option>
+                        <option value="sales">営業部</option>
+                        <option value="engineering">技術部</option>
+                    </select>
+                </div>
+    
+                <!-- チャレンジ 3: チェックボックスの追加 -->
+                <div>
+                    <label>
+                        <input type="checkbox" th:field="*{agreedToTerms}">
+                        利用規約に同意します。
+                    </label>
+                    <div th:if="${#fields.hasErrors('agreedToTerms')}" th:errors="*{agreedToTerms}"></div>
+                </div>
+    
+    
+                <button type="submit">登録</button>
+             </form>
+             <hr>
+             <a th:href="@{/users}">ユーザー一覧に戻る</a>
+        </main>
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </body>
 </html>
