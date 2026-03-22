@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーティリティデモ</title>
+    <style>
+        .section { 
+            margin-bottom: 30px; 
+            padding: 20px; 
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .section h3 { margin-top: 0; color: #4CAF50; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        code { background-color: #e8e8e8; padding: 2px 6px; border-radius: 3px; }
+        .badge-success {
+            background-color: green;
+            color: white;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダーフラグメント -->
+    <div th:replace="~{fragments/header :: header}"></div>
+    
+    <main style="padding: 0 20px;">
+        <h2>ユーティリティ機能デモ</h2>
+        
+        <!-- 日付フォーマット -->
+        <div class="section">
+            <h3>📅 #temporals - 日付フォーマット</h3>
+            <table>
+                <tr>
+                    <th>説明</th>
+                    <th>式</th>
+                    <th>結果</th>
+                </tr>
+                <tr>
+                    <td>デフォルト表示</td>
+                    <td><code>${now}</code></td>
+                    <td th:text="${now}">2024-01-01T12:00:00</td>
+                </tr>
+            <!-- チャレンジ 1: 相対時間表示 -->
+                <tr>
+                    <td>作成時刻</td>
+                    <td><code>${createAt}</code></td>
+                    <td th:text="${createAt}">2024-01-01T09:00:00</td>
+                </tr>   
+                <tr>
+                    <td>相対時間表示</td>
+                    <!-- 
+                    <td><code>${relativeTime}</code></td>
+                    <td th:text="${relativeTime}">3時間前</td>  -->
+                    <td><code>th:if</code></td>
+                    <td>
+                        <span th:if="${#temporals.format(now, 'yyyy-MM-dd') == #temporals.format(createAt, 'yyyy-MM-dd')}">
+                            今日
+                        </span>
+                        <span th:if="${#temporals.format(now.minusDays(1), 'yyyy-MM-dd') == #temporals.format(createAt, 'yyyy-MM-dd')}">
+                            昨日
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>日本語形式</td>
+                    <td><code>#temporals.format(now, 'yyyy年MM月dd日 HH:mm')</code></td>
+                    <td th:text="${#temporals.format(now, 'yyyy年MM月dd日 HH:mm')}">2024年01月01日 12:00</td>
+                </tr>
+                <tr>
+                    <td>日付のみ</td>
+                    <td><code>#temporals.format(birthday, 'yyyy/MM/dd')</code></td>
+                    <td th:text="${#temporals.format(birthday, 'yyyy/MM/dd')}">1990/05/15</td>
+                </tr>
+                <tr>
+                    <td>曜日付き</td>
+                    <td><code>#temporals.format(now, 'M月d日(E)')</code></td>
+                    <td th:text="${#temporals.format(now, 'M月d日(E)')}">1月1日(月)</td>
+                </tr>
+                <tr>
+                    <td>年を取得</td>
+                    <td><code>#temporals.year(now)</code></td>
+                    <td th:text="${#temporals.year(now)}">2024</td>
+                </tr>
+                <tr>
+                    <td>月を取得</td>
+                    <td><code>#temporals.month(now)</code></td>
+                    <td th:text="${#temporals.month(now)}">1</td>
+                </tr>
+                <tr>
+                    <td>日を取得</td>
+                    <td><code>#temporals.day(now)</code></td>
+                    <td th:text="${#temporals.day(now)}">1</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- 文字列操作 -->
+        <div class="section">
+            <h3>📝 #strings - 文字列操作</h3>
+            <table>
+                <tr>
+                    <th>説明</th>
+                    <th>式</th>
+                    <th>結果</th>
+                </tr>
+                <tr>
+                    <td>元のテキスト</td>
+                    <td><code>${longText}</code></td>
+                    <td th:text="${longText}">長いテキスト...</td>
+                </tr>
+                <tr>
+                    <td>切り詰め（20文字）</td>
+                    <td><code>#strings.abbreviate(longText, 20)</code></td>
+                    <td th:text="${#strings.abbreviate(longText, 20)}">これは非常に長いテ...</td>
+                </tr>
+                <tr>
+                    <td>大文字変換</td>
+                    <td><code>#strings.toUpperCase('hello')</code></td>
+                    <td th:text="${#strings.toUpperCase('hello')}">HELLO</td>
+                </tr>
+                <tr>
+                    <td>小文字変換</td>
+                    <td><code>#strings.toLowerCase('HELLO')</code></td>
+                    <td th:text="${#strings.toLowerCase('HELLO')}">hello</td>
+                </tr>
+                <tr>
+                    <td>文字数</td>
+                    <td><code>#strings.length(longText)</code></td>
+                    <td th:text="${#strings.length(longText)}">50</td>
+                </tr>
+                <tr>
+                    <td>空チェック</td>
+                    <td><code>#strings.isEmpty('')</code></td>
+                    <td th:text="${#strings.isEmpty('')}">true</td>
+                </tr>
+                <tr>
+                    <td>含むチェック</td>
+                    <td><code>#strings.contains(longText, 'Thymeleaf')</code></td>
+                    <td th:text="${#strings.contains(longText, 'Thymeleaf')}">true</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- 数値フォーマット -->
+        <div class="section">
+            <h3>🔢 #numbers - 数値フォーマット</h3>
+            <table>
+                <tr>
+                    <th>説明</th>
+                    <th>式</th>
+                    <th>結果</th>
+                </tr>
+                <tr>
+                    <td>元の数値</td>
+                    <td><code>${price}</code></td>
+                    <td th:text="${price}">1234567</td>
+                </tr>
+                <!-- チャレンジ 2: 通貨フォーマット -->
+                <tr>
+                    <td>通貨表示</td>
+                    <td><code>${price}</code></td>
+                    <td th:text="'¥' + ${#numbers.formatInteger(price, 3, 'COMMA')}">¥1,234,567</td>
+                </tr>
+                <tr>
+                    <td>カンマ区切り</td>
+                    <td><code>#numbers.formatInteger(price, 3, 'COMMA')</code></td>
+                    <td th:text="${#numbers.formatInteger(price, 3, 'COMMA')}">1,234,567</td>
+                </tr>
+                <tr>
+                    <td>元のレート</td>
+                    <td><code>${rate}</code></td>
+                    <td th:text="${rate}">0.1234</td>
+                </tr>
+                <tr>
+                    <td>パーセント表示</td>
+                    <td><code>#numbers.formatDecimal(rate * 100, 1, 2) + '%'</code></td>
+                    <td th:text="${#numbers.formatDecimal(rate * 100, 1, 2) + '%'}">12.34%</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- リスト操作 -->
+        <div class="section">
+            <h3>📋 #lists - リスト操作</h3>
+            <table>
+                <tr>
+                    <th>説明</th>
+                    <th>式</th>
+                    <th>結果</th>
+                </tr>
+                <tr>
+                    <td>リストのサイズ</td>
+                    <td><code>#lists.size(items)</code></td>
+                    <td th:text="${#lists.size(items)}">3</td>
+                </tr>
+                <tr>
+                    <td>空チェック</td>
+                    <td><code>#lists.isEmpty(items)</code></td>
+                    <td th:text="${#lists.isEmpty(items)}">false</td>
+                </tr>
+                <tr>
+                    <td>含むチェック</td>
+                    <td><code>#lists.contains(items, 'りんご')</code></td>
+                    <td th:text="${#lists.contains(items, 'りんご')}">true</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- インライン展開 -->
+        <div class="section">
+            <h3 th:inline="none">✨ インライン展開 [[${...}]]</h3>
+            <p>
+                現在の日時は <strong>[[${#temporals.format(now, 'yyyy年MM月dd日')}]]</strong> です。
+            </p>
+            <p>
+                登録されたアイテムは [[${#lists.size(items)}]] 件です。
+            </p>
+        </div>
+        
+        <!-- JavaScript連携 -->
+        <div class="section">
+            <h3>🚀 JavaScript連携</h3>
+            <p>下のボタンをクリックすると、Thymeleafで渡した値がアラートで表示されます。</p>
+            <button onclick="showInfo()">情報を表示</button>
+            
+            <script th:inline="javascript">
+                // Thymeleaf変数をJavaScriptで使用
+                const currentDate = /*[[${#temporals.format(now, 'yyyy-MM-dd')}]]*/ '2024-01-01';
+                const itemCount = /*[[${#lists.size(items)}]]*/ 0;
+                const itemList = /*[[${items}]]*/ [];
+                
+                function showInfo() {
+                    alert('日付: ' + currentDate + '\n' +
+                          'アイテム数: ' + itemCount + '\n' +
+                          'アイテム: ' + itemList.join(', '));
+                }
+            </script>
+        </div>
+
+        <span id="status-badge">ステータス</span>
+
+
+        <script th:inline="javascript">
+            const status = /*[[${status}]]*/ 'default';
+            document.getElementById('status-badge').className = 'badge-' + status;
+        </script>
+
+    </main>
+
+    <!-- フッターフラグメント -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -31,3 +31,8 @@ tr:nth-child(even) {
 .btn:hover {
     background-color: #45a049;
 }
+
+.badge-success {
+        background-color: green;
+        color: white;
+    }

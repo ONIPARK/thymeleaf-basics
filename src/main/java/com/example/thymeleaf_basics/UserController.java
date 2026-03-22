@@ -1,5 +1,8 @@
 package com.example.thymeleaf_basics;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
-
-
 
 
 @Controller
@@ -78,8 +79,6 @@ public class UserController {
         // 一覧ページにリダイレクト
         return "redirect:/users";
     }
-    
-    
 
     //チャレンジ１：ユーザー詳細ページの作成
     @GetMapping("/users/{id}")
@@ -101,6 +100,47 @@ public class UserController {
         }
         model.addAttribute("user", foundUser);
         return "users/detail";
+    }
+    
+    /**
+     * ユーティリティデモページを表示
+     */
+    @GetMapping("/demo")
+    public String showDemo(Model model) {
+        //現在日時
+        LocalDateTime now = LocalDateTime.now();
+        model.addAttribute("now", now);
+
+        //チャレンジ 1: 相対時間表示
+        LocalDateTime createAt = now.minusHours(3);
+        model.addAttribute("createAt", createAt);
+
+        // long hours = Duration.between(createAt, now).toHours();
+
+        // String relativeTime;
+        // if (hours < 24) {
+        //     relativeTime = hours + "時間前";
+        // } else if (hours < 48) {
+        //     relativeTime = "昨日";
+        // } else {
+        //     relativeTime = createAt.toLocalDate().toString();
+        // }
+
+        // model.addAttribute("relativeTime", relativeTime);
+
+        //誕生日
+        model.addAttribute("birthday", LocalDate.of(1990, 5, 15));
+        //サンプル文字例
+        model.addAttribute("longText", "これは非常に長いテキストのサンプルです。Thymeleafのユーティリティ機能を使って切り詰めることができます。");
+        //サンプル数値
+        model.addAttribute("price", 1234567);
+        model.addAttribute("rate", 0.1234);
+        //サンプルリスト
+        model.addAttribute("items", Arrays.asList("りんご", "みかん", "バナナ"));
+
+        //チャレンジ 3: 動的CSSクラス
+        model.addAttribute("status", "success");
+        return "demo";
     }
     
     
