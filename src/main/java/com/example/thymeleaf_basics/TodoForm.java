@@ -1,5 +1,9 @@
 package com.example.thymeleaf_basics;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -14,6 +18,9 @@ public class TodoForm {
 
     @Size(max = 500, message = "説明は500文字以内で入力してください")
     private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dueDate;
 
     //　デフォルトコンストラクト
     public TodoForm() {
@@ -34,5 +41,13 @@ public class TodoForm {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.thymeleaf_basics;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -33,6 +34,9 @@ public class Todo {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "dueDate_at")
+    private LocalDate dueDate;
 
     public Todo() {
     }
@@ -98,5 +102,17 @@ public class Todo {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
     
+
+    public boolean isOverdue() {
+    return !completed && dueDate != null && dueDate.isBefore(LocalDate.now());
+}
 }

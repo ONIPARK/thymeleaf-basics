@@ -87,6 +87,11 @@
                     <p class="error-message" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">エラーメッセージ</p>
                 </div>
                 
+                <div>
+                <label for="dueDate">期限日</label>
+                <input type="date" id="dueDate" th:field="*{dueDate}">
+                </div>  
+
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary">✅ 登録する</button>
                     <a th:href="@{/todos}" class="btn btn-secondary">キャンセル</a>

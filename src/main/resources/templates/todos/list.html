@@ -59,6 +59,10 @@
             border-radius: 4px;
             margin-bottom: 20px;
         }
+        .overdue {
+        color: red;
+        font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -83,12 +87,14 @@
                 <div class="stat-label">未完了</div>
             </div>
         </div>
+
+        <a th:href="@{/todos}">すべて</a>
+        <a th:href="@{/todos(filter='incomplete')}">未完了</a>
+        <a th:href="@{/todos(filter='completed')}">完了</a>
         
         <!-- 新規作成ボタン -->
         <a th:href="@{/todos/new}" class="add-btn">➕ 新しいTODOを追加</a>
         
-        
-
         <!-- TODO一覧 -->
         <div th:if="${#lists.isEmpty(todos)}" class="empty-message">
             <p>まだTODOがありません。新しいTODOを追加してみましょう！</p>
@@ -96,7 +102,8 @@
         
         <ul class="todo-list" th:unless="${#lists.isEmpty(todos)}">
             <li th:each="todo : ${todos}" 
-                th:class="${todo.completed} ? 'todo-item completed' : 'todo-item'">
+                th:class="${todo.completed} ? 'todo-item completed' : 'todo-item'"
+                th:classappend="${todo.overdue} ? ' overdue' : ''">
                 
                 <!-- 完了/未完了切り替えボタン -->
                 <form th:action="@{/todos/{id}/toggle(id=${todo.id})}" method="post" class="todo-checkbox">
@@ -110,6 +117,15 @@
                     <div class="todo-description" th:if="${todo.description}" th:text="${todo.description}">説明</div>
                     <div class="todo-meta">
                         作成: [[${#temporals.format(todo.createdAt, 'yyyy/MM/dd HH:mm')}]]
+
+                        <span th:if="${todo.dueDate != null}">
+                            | 期限日: [[${#temporals.format(todo.dueDate, 'yyyy/MM/dd')}]]
+                        </span>
+                        
+                        <span th:if="${todo.overdue}">
+                            | <strong style="color: red;">期限切れ</strong>
+                        </span>
+
                         <span th:if="${todo.completed}">
                             | 更新: [[${#temporals.format(todo.updatedAt, 'yyyy/MM/dd HH:mm')}]]
                         </span>

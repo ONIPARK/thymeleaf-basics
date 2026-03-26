@@ -53,7 +53,7 @@ public class TodoController {
         
         if ("incomplete".equals(filter)) {
             todos = todoReponsitory.findByCompletedFalseOrderByCreatedAtDesc();
-        } else if ("complete".equals(filter)) {
+        } else if ("completed".equals(filter)) {
             todos = todoReponsitory.findByCompletedTrueOrderByCreatedAtDesc();
         } else {
             todos = todoReponsitory.findAllByOrderByCreatedAtDesc();
@@ -66,6 +66,7 @@ public class TodoController {
         model.addAttribute("totalCount", todos.size());
         model.addAttribute("completedCount", completedCount);
         model.addAttribute("incompleteCount", incompleteCount);
+        model.addAttribute("filter", filter);
 
         return "todos/list";
     }
@@ -95,6 +96,8 @@ public class TodoController {
         Todo todo = new Todo();
         todo.setTitle(form.getTitle());
         todo.setDescription(form.getDescription());
+        todo.setDueDate(form.getDueDate()); //追加
+
         todoReponsitory.save(todo);
 
         return "redirect:/todos";
@@ -108,6 +111,7 @@ public class TodoController {
         TodoForm form = new TodoForm();
         form.setTitle(todo.getTitle());
         form.setDescription(todo.getDescription());
+        form.setDueDate(todo.getDueDate()); //追加
 
         model.addAttribute("todoForm", form);
         model.addAttribute("todoId", id);
