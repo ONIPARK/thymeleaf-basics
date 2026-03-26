@@ -41,13 +41,13 @@
                 <tr>
                     <td>デフォルト表示</td>
                     <td><code>${now}</code></td>
-                    <td th:text="${now}">2024-01-01T12:00:00</td>
+                    <td th:text="${now}"></td>
                 </tr>
             <!-- チャレンジ 1: 相対時間表示 -->
                 <tr>
                     <td>作成時刻</td>
                     <td><code>${createAt}</code></td>
-                    <td th:text="${createAt}">2024-01-01T09:00:00</td>
+                    <td th:text="${createAt}"></td>
                 </tr>   
                 <tr>
                     <td>相対時間表示</td>
@@ -68,32 +68,32 @@
                 <tr>
                     <td>日本語形式</td>
                     <td><code>#temporals.format(now, 'yyyy年MM月dd日 HH:mm')</code></td>
-                    <td th:text="${#temporals.format(now, 'yyyy年MM月dd日 HH:mm')}">2024年01月01日 12:00</td>
+                    <td th:text="${#temporals.format(now, 'yyyy年MM月dd日 HH:mm')}"></td>
                 </tr>
                 <tr>
                     <td>日付のみ</td>
                     <td><code>#temporals.format(birthday, 'yyyy/MM/dd')</code></td>
-                    <td th:text="${#temporals.format(birthday, 'yyyy/MM/dd')}">1990/05/15</td>
+                    <td th:text="${#temporals.format(birthday, 'yyyy/MM/dd')}"></td>
                 </tr>
                 <tr>
                     <td>曜日付き</td>
                     <td><code>#temporals.format(now, 'M月d日(E)')</code></td>
-                    <td th:text="${#temporals.format(now, 'M月d日(E)')}">1月1日(月)</td>
+                    <td th:text="${#temporals.format(now, 'M月d日(E)')}"></td>
                 </tr>
                 <tr>
                     <td>年を取得</td>
                     <td><code>#temporals.year(now)</code></td>
-                    <td th:text="${#temporals.year(now)}">2024</td>
+                    <td th:text="${#temporals.year(now)}"></td>
                 </tr>
                 <tr>
                     <td>月を取得</td>
                     <td><code>#temporals.month(now)</code></td>
-                    <td th:text="${#temporals.month(now)}">1</td>
+                    <td th:text="${#temporals.month(now)}"></td>
                 </tr>
                 <tr>
                     <td>日を取得</td>
                     <td><code>#temporals.day(now)</code></td>
-                    <td th:text="${#temporals.day(now)}">1</td>
+                    <td th:text="${#temporals.day(now)}"></td>
                 </tr>
             </table>
         </div>
@@ -110,37 +110,37 @@
                 <tr>
                     <td>元のテキスト</td>
                     <td><code>${longText}</code></td>
-                    <td th:text="${longText}">長いテキスト...</td>
+                    <td th:text="${longText}">...</td>
                 </tr>
                 <tr>
                     <td>切り詰め（20文字）</td>
                     <td><code>#strings.abbreviate(longText, 20)</code></td>
-                    <td th:text="${#strings.abbreviate(longText, 20)}">これは非常に長いテ...</td>
+                    <td th:text="${#strings.abbreviate(longText, 20)}"></td>
                 </tr>
                 <tr>
                     <td>大文字変換</td>
                     <td><code>#strings.toUpperCase('hello')</code></td>
-                    <td th:text="${#strings.toUpperCase('hello')}">HELLO</td>
+                    <td th:text="${#strings.toUpperCase('hello')}"></td>
                 </tr>
                 <tr>
                     <td>小文字変換</td>
                     <td><code>#strings.toLowerCase('HELLO')</code></td>
-                    <td th:text="${#strings.toLowerCase('HELLO')}">hello</td>
+                    <td th:text="${#strings.toLowerCase('HELLO')}"></td>
                 </tr>
                 <tr>
                     <td>文字数</td>
                     <td><code>#strings.length(longText)</code></td>
-                    <td th:text="${#strings.length(longText)}">50</td>
+                    <td th:text="${#strings.length(longText)}"></td>
                 </tr>
                 <tr>
                     <td>空チェック</td>
                     <td><code>#strings.isEmpty('')</code></td>
-                    <td th:text="${#strings.isEmpty('')}">true</td>
+                    <td th:text="${#strings.isEmpty('')}"></td>
                 </tr>
                 <tr>
                     <td>含むチェック</td>
                     <td><code>#strings.contains(longText, 'Thymeleaf')</code></td>
-                    <td th:text="${#strings.contains(longText, 'Thymeleaf')}">true</td>
+                    <td th:text="${#strings.contains(longText, 'Thymeleaf')}"></td>
                 </tr>
             </table>
         </div>
@@ -157,18 +157,18 @@
                 <tr>
                     <td>元の数値</td>
                     <td><code>${price}</code></td>
-                    <td th:text="${price}">1234567</td>
+                    <td th:text="${price}"></td>
                 </tr>
                 <!-- チャレンジ 2: 通貨フォーマット -->
                 <tr>
                     <td>通貨表示</td>
                     <td><code>${price}</code></td>
-                    <td th:text="'¥' + ${#numbers.formatInteger(price, 3, 'COMMA')}">¥1,234,567</td>
+                    <td th:text="'¥' + ${#numbers.formatInteger(price, 3, 'COMMA')}"></td>
                 </tr>
                 <tr>
                     <td>カンマ区切り</td>
                     <td><code>#numbers.formatInteger(price, 3, 'COMMA')</code></td>
-                    <td th:text="${#numbers.formatInteger(price, 3, 'COMMA')}">1,234,567</td>
+                    <td th:text="${#numbers.formatInteger(price, 3, 'COMMA')}"></td>
                 </tr>
                 <tr>
                     <td>元のレート</td>
@@ -178,7 +178,7 @@
                 <tr>
                     <td>パーセント表示</td>
                     <td><code>#numbers.formatDecimal(rate * 100, 1, 2) + '%'</code></td>
-                    <td th:text="${#numbers.formatDecimal(rate * 100, 1, 2) + '%'}">12.34%</td>
+                    <td th:text="${#numbers.formatDecimal(rate * 100, 1, 2) + '%'}"></td>
                 </tr>
             </table>
         </div>
@@ -195,17 +195,17 @@
                 <tr>
                     <td>リストのサイズ</td>
                     <td><code>#lists.size(items)</code></td>
-                    <td th:text="${#lists.size(items)}">3</td>
+                    <td th:text="${#lists.size(items)}"></td>
                 </tr>
                 <tr>
                     <td>空チェック</td>
                     <td><code>#lists.isEmpty(items)</code></td>
-                    <td th:text="${#lists.isEmpty(items)}">false</td>
+                    <td th:text="${#lists.isEmpty(items)}"></td>
                 </tr>
                 <tr>
                     <td>含むチェック</td>
                     <td><code>#lists.contains(items, 'りんご')</code></td>
-                    <td th:text="${#lists.contains(items, 'りんご')}">true</td>
+                    <td th:text="${#lists.contains(items, 'りんご')}"></td>
                 </tr>
             </table>
         </div>
