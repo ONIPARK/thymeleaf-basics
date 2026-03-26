@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thymeleaf 基礎編</title>
+</head>
+<body>
+    <!-- ヘッダーフラグメント挿入 -->
+    <div th:replace="~{fragments/header :: header}"></div>
+    <!-- チャレンジ 1: サイドバーフラグメントの作成 -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    
+    <main style="padding: 0 20px;">
+        <h1>Thymeleaf 基礎編</h1>
+        <!-- th:text で変数を表示 -->
+        <p th:text="${message}">デフォルトメッセージ</p>
+        <hr>
+        <h2>メニュー</h2>
+        <ul>
+            <!-- <li><a href="/users">ユーザー一覧</a></li> -->
+            <li>
+                <!-- 基本的なリンク-->
+                <a th:href="@{/users}">ユーザー一覧</a>
+
+                <!-- パラメータ付きリンク 
+                <a th:href="@{/user/{id}(id=${user.id})}">詳細</a> -->
+
+                <!-- クエリパラメータ付きリンク -->
+            <!-- <a th:href="@{/users(page=${currentPage}, size=10)}">ページ</a> -->
+            </li>
+        </ul>
+    </main>
+    
+    <!-- フッダーフラグメント挿入 -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

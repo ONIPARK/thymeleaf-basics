@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO一覧</title>
+    <style>
+        .stats { 
+            display: flex; 
+            gap: 20px; 
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+        }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 24px; font-weight: bold; }
+        .stat-label { font-size: 12px; color: #666; }
+        
+        .todo-list { list-style: none; padding: 0; }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .todo-item.completed { background-color: #f9f9f9; opacity: 0.7; }
+        .todo-item.completed .todo-title { text-decoration: line-through; }
+        
+        .todo-checkbox { margin-right: 15px; }
+        .todo-content { flex: 1; }
+        .todo-title { font-weight: bold; margin-bottom: 5px; }
+        .todo-description { color: #666; font-size: 14px; }
+        .todo-meta { font-size: 12px; color: #999; margin-top: 5px; }
+        
+        .todo-actions { display: flex; gap: 10px; }
+        .btn { 
+            padding: 5px 15px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        .btn-toggle { background-color: #4CAF50; color: white; }
+        .btn-delete { background-color: #f44336; color: white; }
+        
+        .empty-message { 
+            text-align: center; 
+            padding: 40px; 
+            color: #999; 
+        }
+        .add-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .overdue {
+        color: red;
+        font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダーフラグメント -->
+    <div th:replace="~{fragments/header :: header}"></div>
+    
+    <main style="padding: 0 20px;">
+        <h2>📝 TODOリスト</h2>
+        
+        <!-- 統計情報 -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" th:text="${totalCount}">0</div>
+                <div class="stat-label">総数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" style="color: #4CAF50;" th:text="${completedCount}">0</div>
+                <div class="stat-label">完了</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" style="color: #f44336;" th:text="${incompleteCount}">0</div>
+                <div class="stat-label">未完了</div>
+            </div>
+        </div>
+
+        <a th:href="@{/todos}">すべて</a>
+        <a th:href="@{/todos(filter='incomplete')}">未完了</a>
+        <a th:href="@{/todos(filter='completed')}">完了</a>
+        
+        <!-- 新規作成ボタン -->
+        <a th:href="@{/todos/new}" class="add-btn">➕ 新しいTODOを追加</a>
+        
+        <!-- TODO一覧 -->
+        <div th:if="${#lists.isEmpty(todos)}" class="empty-message">
+            <p>まだTODOがありません。新しいTODOを追加してみましょう！</p>
+        </div>
+        
+        <ul class="todo-list" th:unless="${#lists.isEmpty(todos)}">
+            <li th:each="todo : ${todos}" 
+                th:class="${todo.completed} ? 'todo-item completed' : 'todo-item'"
+                th:classappend="${todo.overdue} ? ' overdue' : ''">
+                
+                <!-- 完了/未完了切り替えボタン -->
+                <form th:action="@{/todos/{id}/toggle(id=${todo.id})}" method="post" class="todo-checkbox">
+                    <button type="submit" class="btn btn-toggle" 
+                            th:text="${todo.completed} ? '✓' : '○'">○</button>
+                </form>
+
+                <!-- TODOの内容 -->
+                <div class="todo-content">
+                    <div class="todo-title" th:text="${todo.title}">タイトル</div>
+                    <div class="todo-description" th:if="${todo.description}" th:text="${todo.description}">説明</div>
+                    <div class="todo-meta">
+                        作成: [[${#temporals.format(todo.createdAt, 'yyyy/MM/dd HH:mm')}]]
+
+                        <span th:if="${todo.dueDate != null}">
+                            | 期限日: [[${#temporals.format(todo.dueDate, 'yyyy/MM/dd')}]]
+                        </span>
+                        
+                        <span th:if="${todo.overdue}">
+                            | <strong style="color: red;">期限切れ</strong>
+                        </span>
+
+                        <span th:if="${todo.completed}">
+                            | 更新: [[${#temporals.format(todo.updatedAt, 'yyyy/MM/dd HH:mm')}]]
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- 削除ボタン -->
+                <div class="todo-actions">
+                    <form th:action="@{/todos/{id}/delete(id=${todo.id})}" method="post"
+                          onsubmit="return confirm('このTODOを削除しますか？');">
+                        <button type="submit" class="btn btn-delete">🗑️ 削除</button>
+                    </form>
+                </div>
+
+                <!-- 編集ページ -->
+                <a th:href="@{/todos/{id}/edit(id=${todo.id})}">編集</a>    
+            </li>
+        </ul>
+    </main>
+    
+    <!-- フッターフラグメント -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

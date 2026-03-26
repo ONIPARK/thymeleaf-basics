@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="commonHead(pageTitle)">
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">ページタイトル</title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body>
+    <div th:fragment="pageTitle(title, subtitle)">
+        <h1 th:text="${title}">タイトル</h1>
+        <p th:if="${subtitle}" th:text="${subtitle}">サブタイトル</p>
+    </div>
+
+    <div th:fragment="alert(type, message)"
+         th:class="'alert alert-' + ${type}">
+        <span th:text="${message}">メッセージ</span>
+    </div>
+</body>
+</html>

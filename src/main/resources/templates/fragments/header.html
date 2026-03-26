@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- ヘッダーフラグメント -->
+    <header th:fragment="header" style="background-color: #4CAF50; color: white; padding: 15px; margin-bottom: 20px;">
+        <h1 style="margin: 0;">Thymeleaf 基礎編</h1>
+        <nav style="margin-top: 10px;">
+            <a th:href="@{/}" style="color: white; margin-right: 15px;">🏠 ホーム</a>
+            <a th:href="@{/users}" style="color: white; margin-right: 15px;">👥 ユーザー一覧</a>
+            <a th:href="@{/users/new}" style="color: white;">➕ ユーザー登録</a>
+            <a th:href="@{/todos}" style="color: white; margin-right: 15px;">📝 TODO</a>
+            <a th:href="@{/demo}" style="color: white;">🔧 デモ</a>
+        </nav>
+    </header>
+</body>
+</html>
