@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/common :: commonHead('ユーザー一覧')}"></head>
+    <body>
+        <div th:replace="~{fragments/header :: header}"></div>
+        
+        <main style="padding: 0 20px;">
+            <div th:replace="~{fragments/common :: alert('success', 'ユーザー登録が完了しました。')}"></div>
+
+            <div th:replace="~{fragments/common :: pageTitle('ユーザー一覧', '登録されたユーザーを表示します')}"></div>
+    
+            <!-- 新規登録ボタン -->
+             <a th:href="@{/users/new}" class="btn">+ 新規登録</a>
+            
+            <!-- 件数を表示 -->
+            <p th:if="${totalCount > 0}">
+                全 <span th:text="${totalCount}">0</span> 件のユーザーがいます。
+            </p>
+            <p th:unless="${totalCount > 0}">
+                ユーザーが登録されていません。
+            </p>
+    
+            <!-- ユーザーテーブル -->
+             <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>氏名</th>
+                        <th>メールアドレス</th>
+                        <th>部署</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- th:each でリストをループ -->
+                     <!-- チャレンジ 2: 偶数行に背景色を付ける -->
+                     <tr th:each="user, stat : ${users}"
+                     th:class="${stat.even} ? 'even-row' : 'odd-row'">
+                        <td th:text="${user.id}">1</td>
+                        <td th:text="${user.name}">サンプル名</td>
+                        <!-- チャレンジ 3: メールアドレスリンク -->
+                        <td>
+                            <span th:text="${user.email}">@example.com</span>
+                             <a th:href="@{'mailto:' + ${user.email}}">メール送信</a>
+                        </td>
+                        <td th:text="${user.department}">部署名</td>
+                        <td>
+                            <a th:href="@{/users/{id}(id=${user.id})}">詳細</a>
+                        </td>
+                     </tr>
+                </tbody>
+             </table>
+    
+             <hr>
+             <a th:href="@{/}">トップベースに戻る</a>
+        </main>
+
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </body>
+</html>
